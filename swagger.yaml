@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: NodeJS Member Service
+  description: Sample NodeJS CRUD API for Member Management
+  version: 1.0.0
+servers:
+  - url: https://iuo6stpruc.execute-api.us-east-1.amazonaws.com/prod
+    description: Production instance
+  - url: https://iuo6stpruc.execute-api.us-east-1.amazonaws.com/dev
+    description: Development instance
+paths:
+  /users/generate:
+    get:
+      summary: Generates and returns a new user.
+      responses: 
+        '200':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Could not generate a new user.
+  /users/{id}:
+    get:
+      summary: Returns a user by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to return.
+          schema:
+            type : string
+      responses: 
+        '200':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: A user with the specified ID was not found.
+    put:
+      summary: Updates an existing user.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to update.
+          schema:
+            type : string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '204':
+          description: Updated
+        '400':
+          description: Could not create the user record.
+    delete:
+      summary: Deletes a user by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to delete.
+          schema:
+            type : string
+      responses: 
+        '204':
+          description: Deleted
+        '400':
+          description: Could not delete the user record.
+  /users:
+    post:
+      summary: Creates a new user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Could not create the user record.
+components:
+  schemas:
+    User:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: Jessica Smith
+      required:
+        - name

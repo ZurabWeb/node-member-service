@@ -61,6 +61,10 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.tableName}
+    ApiGatewayRestApi:
+      Properties:
+        Body:
+          ${file(swagger.yaml)}
 
 plugins:
   - serverless-offline
