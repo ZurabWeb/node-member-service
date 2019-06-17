@@ -23,19 +23,26 @@ provider:
     USERS_TABLE: ${self:custom.tableName}
 
 functions:
-  app:
+  generateUser:
     handler: index.handler
     events:
-      - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http: 'GET /users/generate'
   getUser:
     handler: index.handler
     events:
-      - http: 'GET /users/{proxy+}'
+      - http: 'GET /users/{id+}'
   createUser:
     handler: index.handler
     events:
       - http: 'POST /users'
+  updateUser:
+    handler: index.handler
+    events:
+      - http: 'PUT /users/{id+}'
+  deleteUser:
+    handler: index.handler
+    events:
+      - http: 'DELETE /users/{id+}'
 
 resources:
   Resources:
@@ -57,4 +64,3 @@ resources:
 
 plugins:
   - serverless-offline
-  - serverless-mocha-plugin

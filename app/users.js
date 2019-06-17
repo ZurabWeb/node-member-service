@@ -1,3 +1,5 @@
+'use strict';
+
 const AWS = require('aws-sdk');
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const USERS_TABLE = process.env.USERS_TABLE;
@@ -69,30 +71,30 @@ const deleteById = (id) => {
 }
 
 async function saveAsync(data) {
-    return await save(data);
+	return await save(data);
 }
 
 // Get a random user asynchronously
 const random = () => {
 	return new Promise(function(resolve, reject) {
-        require('request')({
-            url: generatorSource,
-            json: true
-        }, function (error, response, body) {
-            if (error || response.statusCode !== 200) {
-                return reject('Could not get a random user');
-            }
+		require('request')({
+			url: generatorSource,
+			json: true
+		}, function (error, response, body) {
+			if (error || response.statusCode !== 200) {
+				return reject('Could not get a random user');
+			}
 
-            let user = body.results[0];
-            let userData = { name: user.name.first + ' ' + user.name.last };
-            resolve(saveAsync(userData))
-        })
-    });
+			let user = body.results[0];
+			let userData = { name: user.name.first + ' ' + user.name.last };
+			resolve(saveAsync(userData))
+		})
+	});
 }
 
 module.exports = {
-    getById: getById,
-    save: save,
-    deleteById: deleteById,
-    random: random
+	getById: getById,
+	save: save,
+	deleteById: deleteById,
+	random: random
 };

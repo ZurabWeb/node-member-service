@@ -1,3 +1,5 @@
+'use strict';
+
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -10,7 +12,7 @@ app.use(bodyParser.json({ strict: false }));
 app.get('/users/generate', function (req, res) {
 	users.random()
 		.then((result) => res.json(result))
-		.catch((error) => res.status(404).json({ error: error }));
+		.catch((error) => res.status(400).json({ error: error }));
 });
 
 // Get a users by user ID
